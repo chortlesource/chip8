@@ -24,6 +24,10 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 #ifndef _CHIP8_HPP
 #define _CHIP8_HPP
 
+/*
+This file contains the application macros, forwards,
+types and libraries used by the application
+*/
 
 // ------- APP NOTES ------- //
 

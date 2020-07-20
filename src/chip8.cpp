@@ -23,6 +23,9 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 #include "chip8.hpp"
 
+
+// ------- Program main function ------- //
+
 int main(const int argc, const char *argv[]) {
   SYSTEM system;
 
