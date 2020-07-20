@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-chip8 - chip8.cpp
+chip8 - display.hpp
 
 Copyright (c) 2020 Christopher M. Short
 
@@ -21,14 +21,43 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "chip8.hpp"
+#ifndef _CHIP8_DISPLAY_HPP
+#define _CHIP8_DISPLAY_HPP
 
-int main(const int argc, const char *argv[]) {
-  SYSTEM system;
 
-  system.initialize(argc, argv);
-  system.run();
-  system.finalize();
+// ------- DISPLAY Class ------- //
 
-  return 0;
-}
+/*
+A container class for the SDL Display which handles
+window updates and configuration
+*/
+
+class DISPLAY {
+public:
+  // Display public functions
+  void initialize();
+  void draw(cont std::array<Byte, 2048>& display);
+  void clear();
+  void finalize();
+
+private:
+  // Display variables
+  bool initialized;
+  SDL_Window *window;
+  SDL_Renderer *render;
+
+  unsigned int app_w;
+  unsigned int app_h;
+  unsigned int pixel_h;
+  unsigned int pixel_w;
+  unsigned int pixel_r;
+  unsigned int pixel_g;
+  unsigned int pixel_b;
+  unsigned int pixel_a;
+
+  // Display private functions
+  void setDefault();
+  void setConfig();
+};
+
+#endif // _CHIP8_DISPLAY_HPP

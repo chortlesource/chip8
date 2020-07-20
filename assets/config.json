@@ -1,0 +1,11 @@
+{
+	"APP_DELAY" : 10,
+	"APP_H" : 320,
+	"APP_W" : 640,
+	"PIXEL_A" : 255,
+	"PIXEL_B" : 255,
+	"PIXEL_G" : 255,
+	"PIXEL_H" : 10,
+	"PIXEL_R" : 255,
+	"PIXEL_W" : 10
+}

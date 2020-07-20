@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-chip8 - chip8.cpp
+chip8 - system.hpp
 
 Copyright (c) 2020 Christopher M. Short
 
@@ -21,14 +21,43 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "chip8.hpp"
+#ifndef _CHIP8_SYSTEM_HPP
+#define _CHIP8_SYSTEM_HPP
 
-int main(const int argc, const char *argv[]) {
-  SYSTEM system;
+// ------- SYSTEM Class ------- //
 
-  system.initialize(argc, argv);
-  system.run();
-  system.finalize();
+/*
+A container class for the Chip8 Program that parses
+ command line input and executes the desired result.
+*/
 
-  return 0;
-}
+class SYSTEM {
+public:
+  // System enumeration
+  enum class STATE { EXEC, PAUSE, HALT, ERR };
+
+  // System public functions
+  void initialize(const int argc, const char *argv[]);
+  void run();
+  void finalize();
+
+private:
+  // System Variables
+  STATE state;
+  bool config_enabled;
+  bool debug_enabled;
+
+  std::string file_path;
+  std::string debug_path;
+
+  // System Components
+
+  // System private functions
+  bool fexist(const std::string& path);
+  void parse(const int argc, const char *argv[]);
+  void handleEvent();
+
+
+};
+
+#endif // _CHIP8_SYSTEM_HPP
