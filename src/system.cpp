@@ -36,16 +36,24 @@ void SYSTEM::initialize(const int argc, const char *argv[]) {
   debug_enabled = false;
 
   parse(argc, argv);
+
+  display.initialize();
 }
 
 
 void SYSTEM::run() {
-  // Do something
+  // Main program function
+  while(state != STATE::HALT) {
+    // Handle SDL_Events
+    handleEvent();
+  }
 }
 
 
 void SYSTEM::finalize() {
-  // Do something
+
+  // Finalize the system components
+  display.finalize();
 }
 
 
@@ -137,5 +145,20 @@ void SYSTEM::parse(const int argc, const char *argv[]) {
 
 
 void SYSTEM::handleEvent() {
-  // Do something
+  if (SDL_PollEvent(&event)) {
+    switch(event.type) {
+      case SDL_QUIT:
+        state = STATE::HALT;
+        break;
+      case SDL_KEYUP:
+        /* for(unsigned int n = 0; n < 16; n++) {
+          if(event.key.keysym.sym == c8_key[n])
+            state->getCpu()->setKey(n);
+        }*/
+        break;
+      default:
+        break;
+    }
+    SDL_Delay(10);
+  }
 }

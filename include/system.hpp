@@ -46,11 +46,13 @@ private:
   STATE state;
   bool config_enabled;
   bool debug_enabled;
+  SDL_Event event;
 
   std::string file_path;
   std::string debug_path;
 
   // System Components
+  DISPLAY display;
 
   // System private functions
   bool fexist(const std::string& path);

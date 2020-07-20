@@ -36,7 +36,7 @@ class DISPLAY {
 public:
   // Display public functions
   void initialize();
-  void draw(cont std::array<Byte, 2048>& display);
+  void draw(const std::array<Byte, 2048>& display);
   void clear();
   void finalize();
 

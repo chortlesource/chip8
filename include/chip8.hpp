@@ -31,19 +31,17 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 #define _APP_VERSION "0.0.1-BETA"
 #define _APP_AUTHOR "C. M. Short"
 #define _APP_SOURCE "http://www.github.com/chortlesoft/chip8"
-#define _APP_CONFIG "assets/config.json"
+#define _APP_CONF "assets/config.json"
 
-// ------- FORWARDS ------- //
 
-class SYSTEM;
-
-// ------- INCLUDES ------- //
+// ------- LIBRARY INCLUDES ------- //
 
 // Standard libraries
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <memory>
+#include <cstdint>
 
 #include <string>
 #include <vector>
@@ -53,6 +51,17 @@ class SYSTEM;
 
 // Dependencies
 #include <SDL2/SDL.h>
+
+
+// ------- FORWARDS ------- //
+
+class SYSTEM;
+
+typedef std::uint8_t Byte;
+typedef std::uint16_t Word;
+
+
+// ------- LOCAL INCLUDES ------- //
 
 // Local includes
 #include "json.hpp"

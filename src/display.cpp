@@ -29,28 +29,96 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 // Display public functions
 
 void DISPLAY::initialize() {
-  // Do something
+  // Initialize the application to default settings
+  setDefault();
+
+  // Initialize the configuration if Present
+  setConfig();
+
+  // Initialize the window
+  std::string title = _APP_NAME " - " _APP_VERSION;
+  window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, app_w, app_h, SDL_WINDOW_SHOWN);
+  if(window == nullptr) {
+    std::cerr << "[CHIP8] SDL_WINDOW_ERROR: " << SDL_GetError() << std::endl;
+    return;
+  }
+
+  // Initialize our renderer
+  render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  if(render == nullptr) {
+    std::cerr << "[CHIP8] SDL_RENDER_ERROR: " << SDL_GetError() << std::endl;
+    SDL_DestroyWindow(window);
+    return;
+  }
+
+  // Configure colours
+  SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
+  SDL_RenderClear(render);
+  SDL_SetRenderDrawColor(render, pixel_r, pixel_g, pixel_b, pixel_a);
+
+  SDL_RenderPresent(render);
+
+  initialized = true;
 }
 
 
-void DISPLAY::draw(cont std::array<Byte, 2048>& display) {
-  // Do something
+void DISPLAY::draw(const std::array<Byte, 2048>& display) {
+  if(!initialized)
+    return;
+
+  // Clear the display
+  this->clear();
+
+  // Draw pixel's to the screen
+  for(unsigned int pos = 0; pos < 2048; pos++) {
+    if(display[pos] == 1) {
+      // Calculate the xy coordinates
+      unsigned int x = pos % 64;
+      unsigned int y = pos / 64;
+
+      // Generate a rect to represent our pixel
+      SDL_Rect rect;
+      rect.w = pixel_w;
+      rect.h = pixel_h;
+      rect.y = y * rect.h;
+      rect.x = x * rect.w;
+
+
+      // Draw to the render and present to the window
+      SDL_RenderFillRect(render, &rect);
+      SDL_RenderDrawRect(render, &rect);
+    }
+  }
+
+  // Present the updated screen and set our last display var
+  SDL_RenderPresent(render);
 }
 
 
 void DISPLAY::clear() {
-  // Do something
+  if(!initialized)
+    return;
+
+  SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
+  SDL_RenderClear(render);
+  SDL_SetRenderDrawColor(render, pixel_r, pixel_g, pixel_b, pixel_a);
 }
 
 
 void DISPLAY::finalize() {
-  // Do something
+  if(!initialized)
+    return;
+
+  initialized = false;
+  SDL_DestroyRenderer(render);
+  SDL_DestroyWindow(window);
 }
 
 
 // ------- Display private functions
 
 void DISPLAY::setDefault() {
+  // These are the default display configuration settings
   app_w = 320;
   app_h = 640;
   pixel_h = 10;
@@ -64,12 +132,14 @@ void DISPLAY::setDefault() {
 
 void DISPLAY::setConfig() {
   Json::Value config;
-  std::ifstream in_stream(_APP_CONFIG, std::ifstream::binary);
+  std::ifstream in_stream(_APP_CONF, std::ifstream::binary);
+
   if(in_stream.is_open()) {
-    // Read in the relevant file
+    // Read in the configuration file
     in_stream >> config;
     in_stream.close();
 
+    // Update the display variables where a valid field is present
     if(!config["APP_W"].empty())
       app_w = config["APP_W"].asUInt();
 
