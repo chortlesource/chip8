@@ -60,16 +60,20 @@ types and libraries used by the application
 // ------- FORWARDS ------- //
 
 class SYSTEM;
+class CPU;
 
 typedef std::uint8_t Byte;
 typedef std::uint16_t Word;
+typedef void (CPU::*OPFUNC)();
 
 
 // ------- LOCAL INCLUDES ------- //
 
 // Local includes
 #include "json.hpp"
+#include "memory.hpp"
 #include "display.hpp"
+#include "cpu.hpp"
 #include "system.hpp"
 
 #endif // _CHIP8_HPP
