@@ -67,7 +67,9 @@ void DISPLAY::draw(const std::array<Byte, 2048>& display) {
     return;
 
   // Clear the display
-  this->clear();
+  SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
+  SDL_RenderClear(render);
+  SDL_SetRenderDrawColor(render, pixel_r, pixel_g, pixel_b, pixel_a);
 
   // Draw pixel's to the screen
   for(unsigned int pos = 0; pos < 2048; pos++) {
@@ -119,6 +121,7 @@ void DISPLAY::finalize() {
 
 void DISPLAY::setDefault() {
   // These are the default display configuration settings
+  app_delay = 1;
   app_w = 320;
   app_h = 640;
   pixel_h = 10;
@@ -140,6 +143,9 @@ void DISPLAY::setConfig() {
     in_stream.close();
 
     // Update the display variables where a valid field is present
+    if(!config["APP_DELAY"].empty())
+      app_delay = config["APP_DELAY"].asFloat();
+
     if(!config["APP_W"].empty())
       app_w = config["APP_W"].asUInt();
 
@@ -163,5 +169,7 @@ void DISPLAY::setConfig() {
 
     if(!config["PIXEL_A"].empty())
       pixel_a = config["PIXEL_A"].asUInt();
+
+
   }
 }

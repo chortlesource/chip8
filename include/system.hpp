@@ -50,15 +50,16 @@ private:
 
   std::string file_path;
   std::string debug_path;
+  float delay;
 
   // System Components
   DISPLAY display;
+  CPU cpu;
 
   // System private functions
   bool fexist(const std::string& path);
   void parse(const int argc, const char *argv[]);
   void handleEvent();
-
 
 };
 

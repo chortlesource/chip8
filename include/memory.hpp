@@ -42,11 +42,11 @@ private:
   std::array<Byte, MEM_SIZE> MEMORY;
 
 public:
-  void Open(const std::string& path, const Word& offset);
-  void Reset();
+  void open(const std::string& path, const Word& offset);
+  void reset();
 
-  void Write(const Word& addr, const Byte& value);
-  const Byte& Read(const Word& addr);
+  void write(const Word& addr, const Byte& value);
+  const Byte& read(const Word& addr);
 
 };
 

@@ -35,23 +35,32 @@ void SYSTEM::initialize(const int argc, const char *argv[]) {
   config_enabled = fexist("assets/config.json");
   debug_enabled = false;
 
+  // Parse the variable passed to the emulator
   parse(argc, argv);
 
+  // Initialize the components
   display.initialize();
+  cpu.initialize(&display);
+
+  // Pull out the delay from the configuration
+  delay = display.getDelay();
 }
 
 
 void SYSTEM::run() {
+  cpu.open(file_path, 0x200);
+
   // Main program function
   while(state != STATE::HALT) {
     // Handle SDL_Events
+    cpu.update();
     handleEvent();
+    SDL_Delay(delay);
   }
 }
 
 
 void SYSTEM::finalize() {
-
   // Finalize the system components
   display.finalize();
 }
@@ -151,14 +160,13 @@ void SYSTEM::handleEvent() {
         state = STATE::HALT;
         break;
       case SDL_KEYUP:
-        /* for(unsigned int n = 0; n < 16; n++) {
-          if(event.key.keysym.sym == c8_key[n])
-            state->getCpu()->setKey(n);
-        }*/
+        for(unsigned int n = 0; n < 16; n++) {
+          if(event.key.keysym.sym == chip8_key[n])
+            cpu.setKey(n);
+        }
         break;
       default:
         break;
     }
-    SDL_Delay(10);
   }
 }

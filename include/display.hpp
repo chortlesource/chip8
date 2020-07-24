@@ -40,12 +40,15 @@ public:
   void clear();
   void finalize();
 
+  const float& getDelay() { return app_delay; }
+
 private:
   // Display variables
   bool initialized;
   SDL_Window *window;
   SDL_Renderer *render;
 
+  float app_delay;
   unsigned int app_w;
   unsigned int app_h;
   unsigned int pixel_h;

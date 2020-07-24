@@ -25,7 +25,7 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 // ------- CHIP8_MEMORY Implementation ------- //
 
-void CHIP8_MEMORY::Open(const std::string& path, const Word& offset) {
+void CHIP8_MEMORY::open(const std::string& path, const Word& offset) {
   // Open a file stream
   std::ifstream input(path, std::ios::binary);
   if(input.is_open()){
@@ -52,7 +52,7 @@ void CHIP8_MEMORY::Open(const std::string& path, const Word& offset) {
 }
 
 
-void CHIP8_MEMORY::Reset() {
+void CHIP8_MEMORY::reset() {
   // Reset memory by filling with 0's
   MEMORY.fill(0);
 
@@ -62,13 +62,13 @@ void CHIP8_MEMORY::Reset() {
 }
 
 
-void CHIP8_MEMORY::Write(const Word& addr, const Byte& value) {
+void CHIP8_MEMORY::write(const Word& addr, const Byte& value) {
   // Write the value to addr in memory
   MEMORY[addr] = value;
 }
 
 
-const Byte& CHIP8_MEMORY::Read(const Word& addr) {
+const Byte& CHIP8_MEMORY::read(const Word& addr) {
   // Return the addr value in memory
   return MEMORY[addr];
 }
