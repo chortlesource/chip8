@@ -35,7 +35,7 @@ to be passed to utilise relevant functions such as draw()
 class CPU {
 public:
   // CPU public functions
-  void initialize(DISPLAY *d);
+  void initialize(DISPLAY *d, DEBUG *dbg);
   void update();
   void reset();
 
@@ -60,6 +60,7 @@ private:
   // CPU pointers
   OPFUNC opfunc;
   DISPLAY *window;
+  DEBUG *debug;
 
   // CPU utilities
   CHIP8_MEMORY memory;

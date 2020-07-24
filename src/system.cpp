@@ -40,7 +40,14 @@ void SYSTEM::initialize(const int argc, const char *argv[]) {
 
   // Initialize the components
   display.initialize();
-  cpu.initialize(&display);
+  cpu.initialize(&display, &debug);
+
+  if(debug_enabled) {
+    debug.initialize(debug_path);
+    debug.setEnabled(true);
+  } else {
+    debug.setEnabled(false);
+  }
 
   // Pull out the delay from the configuration
   delay = display.getDelay();
@@ -48,7 +55,12 @@ void SYSTEM::initialize(const int argc, const char *argv[]) {
 
 
 void SYSTEM::run() {
+  if(state != STATE::EXEC)
+    return;
+
+  // Load the ROM into memory
   cpu.open(file_path, 0x200);
+  debug.start();
 
   // Main program function
   while(state != STATE::HALT) {
@@ -57,6 +69,8 @@ void SYSTEM::run() {
     handleEvent();
     SDL_Delay(delay);
   }
+
+  debug.stop();
 }
 
 
@@ -127,7 +141,7 @@ void SYSTEM::parse(const int argc, const char *argv[]) {
           if(fexist(args[1])) {
             // Configure our system to run the ROM and debug
             file_path = args[1];
-            debug_path = args[2];
+            debug_path = args[3];
             debug_enabled = true;
             state = STATE::EXEC;
 
@@ -154,6 +168,7 @@ void SYSTEM::parse(const int argc, const char *argv[]) {
 
 
 void SYSTEM::handleEvent() {
+  // Handle key press events and attempts to close the SDL window
   if (SDL_PollEvent(&event)) {
     switch(event.type) {
       case SDL_QUIT:

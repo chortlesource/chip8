@@ -113,6 +113,7 @@ static const SDL_Keycode chip8_key[16] =
 #include "json.hpp"
 #include "memory.hpp"
 #include "display.hpp"
+#include "debug.hpp"
 #include "cpu.hpp"
 #include "system.hpp"
 

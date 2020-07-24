@@ -26,8 +26,9 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 // ------- CPU public functions
 
-void CPU::initialize(DISPLAY *d) {
+void CPU::initialize(DISPLAY *d, DEBUG *dbg) {
   window = d;
+  debug = dbg;
   reset();  //
 }
 
@@ -37,7 +38,7 @@ void CPU::update() {
   decode();                     // Decode
 
   // Log CPU Status
-  // dbug.cpulog(opcode, registers, i, pc, sp);
+  debug->log_cpu_state(opcode, registers, i, pc, sp);
 
   execute();                    // Execute
   --delay_timer;
@@ -252,14 +253,14 @@ void CPU::execute() {
 
 const Byte& CPU::memory_read(const Word& addr) {
   // Wrapper to log memory read data
-  //dbug.memlog_r(addr, memory.Read(addr));
+  debug->log_mem_read(addr, memory.read(addr));
   return memory.read(addr);
 }
 
 
 void CPU::memory_write(const Word& addr, const Byte& value) {
   // Wrapper to log memory write data
-  //dbug.memlog_w(addr, value);
+  debug->log_mem_write(addr, value);
   memory.write(addr, value);
 }
 

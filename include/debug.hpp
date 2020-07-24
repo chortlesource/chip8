@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-chip8 - system.hpp
+chip8 - debug.hpp
 
 Copyright (c) 2020 Christopher M. Short
 
@@ -21,47 +21,38 @@ along with chip8. If not, see <https://www.gnu.org/licenses/>.
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef _CHIP8_SYSTEM_HPP
-#define _CHIP8_SYSTEM_HPP
+#ifndef _CHIP8_DEBUG_HPP
+#define _CHIP8_DEBUG_HPP
 
-// ------- SYSTEM Class ------- //
+
+// ------- DEBUG Class ------- //
 
 /*
-A container class for the Chip8 Program that parses
- command line input and executes the desired result.
+A class that aids with debugging the CHIP8 Emulator by creating
+a log file with all operations
 */
 
-class SYSTEM {
+class DEBUG {
 public:
-  // System enumeration
-  enum class STATE { EXEC, PAUSE, HALT, ERR };
+  // Debug public functions
+  void start();
+  void stop();
 
-  // System public functions
-  void initialize(const int argc, const char *argv[]);
-  void run();
-  void finalize();
+  void log_cpu_state(const Word& opcode, const std::array<Byte, 16>& registers, const Word& i, const Word& pc, const Byte& sp);
+  void log_mem_read(const Word& addr, const Byte& value);
+  void log_mem_write(const Word& addr, const Byte& value);
+
+  void initialize(const std::string& path) { log_path = path; }
+  void setEnabled(const bool& e) { enabled = e;}
 
 private:
-  // System Variables
-  STATE state;
-  bool config_enabled;
-  bool debug_enabled;
-  SDL_Event event;
+  // Debug variables
+  bool enabled;
 
-  std::string file_path;
-  std::string debug_path;
-  float delay;
-
-  // System Components
-  DISPLAY display;
-  DEBUG debug;
-  CPU cpu;
-
-  // System private functions
-  bool fexist(const std::string& path);
-  void parse(const int argc, const char *argv[]);
-  void handleEvent();
+  std::string log_path;
+  std::ofstream output;
 
 };
 
-#endif // _CHIP8_SYSTEM_HPP
+
+#endif // _CH8P_DEBUG_HPP
