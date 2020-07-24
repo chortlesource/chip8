@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(chip8)
 
-## C++11 COMPILER SUPPORT
+## C++17 COMPILER SUPPORT
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
